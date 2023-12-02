@@ -1,0 +1,4 @@
+﻿  flightAlpro.cpp
+D:\Crown\tried\flightAlpro\flightAlpro\flightAlpro.cpp(269,48): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Crown\tried\flightAlpro\flightAlpro\flightAlpro.cpp(280,48): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  flightAlpro.vcxproj -> D:\Crown\tried\flightAlpro\x64\Debug\flightAlpro.exe
