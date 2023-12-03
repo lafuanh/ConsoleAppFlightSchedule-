@@ -308,6 +308,29 @@ Tiket createTiket(int nTiket, int nPesawat, int tanggalPesawat, int timeDepature
     return Ticket_new;
 }
 
+string menu_app[6] = {
+    "1. Admin",
+    "2. Airport Board",
+    "3. Costumer",
+    "4. Exit"
+};
+
+string menu_constumer[6] = {
+    "1. Data Diri",
+    "2. Pesan Penerbangan",
+    "3. Daftar Tiket",
+    "4. Kembali"
+};
+
+string menu_admin[6] = { //data diri harus admin untuk masuk menu ini
+    "1. Tambahkan Penerbangan",
+    "2. Edit Penerbangan",
+    "3. Kembali",
+};
+
+
+//kursi
+//function all button
 
 int main() {
     int hari_now = 3;
@@ -315,15 +338,6 @@ int main() {
     updateStatus(hari_now);
     DisplayBoard("SOC", 3);
 
-    string menu_app[6] = {
-        "1. Admin",
-        "2. Airport Board",
-        "3. Costumer",
-        "4. Exit"
-    };
-
-
- 
     bool is_lanjut = true;
     int i, pilih;
 
@@ -331,17 +345,18 @@ int main() {
         for (i = 0;i < 6;i++) {
             cout << menu_app[i] << endl;
         }
+        
         cout << "Pilih Menu: ";
         cin >> pilih;
         switch (pilih) {
         case 1:
             break;
         case 2:
-            cout << "-----------------------\n";
-         
+         //show all bandara
+                //pilih bandara && date
+                //show the display
             break;
         case 3:
-            cout << "----------makanan-------------\n";
             break;
         case 4:
             is_lanjut = false;
