@@ -328,18 +328,154 @@ string menu_constumer[6] = {
 };
 
 string menu_admin[3] = { //data diri harus admin untuk masuk menu ini
-    "1. Tambahkan Penerbangan",
-    "2. Edit Penerbangan",
-    "3. Kembali"
+    "1. Edit Penerbangan",
+    "2. kembali",
 };
 
 
 //kursi
 //function all button
+
+void menu_editPenerbangan(){
+    vector<Penerbangan> dataPenerbanganBandara;
+
+    int pilihPenerbangan;
+    int choiceAirport;
+    int pilihEntity;
+
+    cout<< "[-- Tambah Penerbangan --]"<<endl;
+    cout<< "\n\n[ Pilih Bandara ]"<< endl;
+    for (int i = 0;i < JumlahBandara;i++) {
+        cout << i+1<<". "<<Bandara[i][0] << "("<<Bandara[i][1]<<")"<< endl;
+    }
+    cout << "Pilih bandara: ";
+    cin >> choiceAirport;
+
+
+    cout<< "\n\n[ Pilih Pesawat ]"<< endl;
+    int index = 1;
+
+    for (auto& penerbangan : dataPenerbangan) {
+        int selectedId = 0;
+
+        if (penerbangan.id_BandaraSekarang == Bandara[selectedId][1]) {
+            std::cout <<  index << ". ";
+            std::cout << "No Pesawat : " << convertKodePesawat(penerbangan.nomorPesawat )<< " ";
+            std::cout << "depature date: " << penerbangan.tanggalPenerbangan<<" desember 2023" << " ";
+            std::cout << "depature time: " << convertJam(penerbangan.jamKeberangkatan)<< " ";
+            std::cout << "Status: " << penerbangan.status << " ";
+            std::cout << "Tujuan: " << penerbangan.id_BandaraTujuan << " ";
+            std::cout << "Asal: " << penerbangan.id_BandaraSekarang << " ";
+            std::cout << "Gate: " << penerbangan.id_gate << "\n";
+            std::cout << "------------------------\n";
+            dataPenerbanganBandara.push_back(penerbangan);
+            index++;
+        }
+        selectedId ++;
+
+    }
+    cout << "Pilih bandara: ";
+    cin >> pilihPenerbangan;
+    pilihPenerbangan -= 1;
+    std::cout << "----------- data penerbangan -------------\n";
+    std::cout << "1. No Pesawat : " << dataPenerbangan[pilihPenerbangan].nomorPesawat<< "\n";
+    std::cout << "2. depature date: " << dataPenerbangan[pilihPenerbangan].tanggalPenerbangan<<" desember 2023" << "\n";
+    std::cout << "3. depature time: " << convertJam(dataPenerbangan[pilihPenerbangan].jamKeberangkatan)<< "\n";
+    std::cout << "4. Status: " <<dataPenerbangan[pilihPenerbangan].status << "\n";
+    std::cout << "5. Tujuan: " << dataPenerbangan[pilihPenerbangan].id_BandaraTujuan << "\n";
+    std::cout << "6. Asal: " << dataPenerbangan[pilihPenerbangan].id_BandaraSekarang << "\n";
+    std::cout << "7. Gate: " << dataPenerbangan[pilihPenerbangan].id_gate << "\n";
+    std::cout << "------------------------\n";
+    cout << "Pilih entity yang ingin diedit : ";
+    cin >> pilihEntity;
+    switch (pilihEntity) {
+        case 1:
+            int nomor;
+            cout << "edit dengan (number): ";
+            cin >> nomor;
+            dataPenerbangan[pilihPenerbangan].nomorPesawat = nomor;
+            break;
+        case 2:
+            int date;
+            cin >> date;
+            cout << "edit dengan hari( 1-7 ): ";
+            dataPenerbangan[pilihPenerbangan].tanggalPenerbangan = date;
+            break;
+        case 3:
+            int jam;
+            int menit;
+            cout << "edit dengan (jam): ";
+            cin >> jam;
+            cout << "edit dengan (menit): ";
+            cin >> menit;
+            menit = jam * 60 + menit;
+
+            dataPenerbangan[pilihPenerbangan].jamKeberangkatan = menit;
+            break;
+        case 4:{
+            string stats;
+            cout << "edit dengan (status): ";
+            cin >> stats;
+            
+            dataPenerbangan[pilihPenerbangan].status = stats;
+            break;
+        }
+        case 5:{
+            string tujuanB;
+            for (int i = 0;i < JumlahBandara;i++) {
+                cout << Bandara[i][0] <<" : "<< Bandara[i][1] << endl;
+            }
+
+            cout << "edit dengan (kode bandara): ";
+            cin >> tujuanB;
+            
+            dataPenerbangan[pilihPenerbangan].id_BandaraTujuan = tujuanB;
+            break;
+        }
+        case 6:{
+            string asalB;
+            for (int i = 0;i < JumlahBandara;i++) {
+                cout << Bandara[i][0] <<" : "<< Bandara[i][1] << endl;
+            }
+
+            cout << "edit dengan (kode bandara): ";
+            cin >> asalB;
+            
+            dataPenerbangan[pilihPenerbangan].id_BandaraSekarang = asalB;
+            break;
+            
+        }
+        case 7:{
+            string gateB;
+
+            cout << "edit dengan (gate ex: C-5): ";
+            cin >> gateB;
+            
+            dataPenerbangan[pilihPenerbangan].id_BandaraSekarang = gateB;
+            break;
+            
+        }
+
+
+
+    }
+    
+    std::cout << "----------- data penerbangan baru -------------\n";
+    std::cout << "1. No Pesawat : " << dataPenerbangan[pilihPenerbangan].nomorPesawat<< "\n";
+    std::cout << "2. depature date: " << dataPenerbangan[pilihPenerbangan].tanggalPenerbangan<<" desember 2023" << "\n";
+    std::cout << "3. depature time: " << convertJam(dataPenerbangan[pilihPenerbangan].jamKeberangkatan)<< "\n";
+    std::cout << "4. Status: " <<dataPenerbangan[pilihPenerbangan].status << "\n";
+    std::cout << "5. Tujuan: " << dataPenerbangan[pilihPenerbangan].id_BandaraTujuan << "\n";
+    std::cout << "6. Asal: " << dataPenerbangan[pilihPenerbangan].id_BandaraSekarang << "\n";
+    std::cout << "7. Gate: " << dataPenerbangan[pilihPenerbangan].id_gate << "\n";
+    std::cout << "------------------------\n";
+
+
+
+}
 void menuAdmin(){
     bool is_lanjut = true;
     int pilih;
-    
     while (is_lanjut) {
         for (int i = 0;i < 3;i++) {
             cout << menu_admin[i] << endl;
@@ -349,10 +485,10 @@ void menuAdmin(){
         cin >> pilih;
         switch (pilih) {
         case 1:
+                menu_editPenerbangan();
             break;
+        
         case 2:
-            break;
-        case 3:
                 is_lanjut = false;
             break;
        
