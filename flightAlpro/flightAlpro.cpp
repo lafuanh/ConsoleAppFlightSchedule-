@@ -13,6 +13,7 @@ using namespace std;
 #include <chrono>
 #include <iomanip>
 
+int hari_now = 3;
 
 // DATA MASKAPAI
 std::string dataMaskapai[][2] = {
@@ -234,6 +235,10 @@ void updateStatus(int currentDate){
                 penerbangan.status = "Boarding";
 
             }
+        }else if (penerbangan.tanggalPenerbangan < currentDate){
+            penerbangan.status = "experied";
+        }else if (penerbangan.tanggalPenerbangan > currentDate){
+            penerbangan.status = "scheduled";
         }
     }
 }
@@ -242,7 +247,7 @@ void updateStatus(int currentDate){
 void DisplayBoard(string airportCode, int date){
     int jam = showActualTime() ;
     
-    cout<< "\njam: "<< convertJam(jam) << "\ntanggal: "<< date<< " Desember 2023\n" <<endl;
+    cout<< "\njam: "<< convertJam(jam) << "\ntanggal: "<< hari_now<< " Desember 2023\n" <<endl;
     cout << std::setw(15) << std::left << "Kode Pesawat"
                << std::setw(20) << "Depature"
                << std::setw(15) << "Remarks"
@@ -322,28 +327,22 @@ string menu_constumer[6] = {
     "4. Kembali"
 };
 
-string menu_admin[6] = { //data diri harus admin untuk masuk menu ini
+string menu_admin[3] = { //data diri harus admin untuk masuk menu ini
     "1. Tambahkan Penerbangan",
     "2. Edit Penerbangan",
-    "3. Kembali",
+    "3. Kembali"
 };
 
 
 //kursi
 //function all button
-
-int main() {
-    int hari_now = 3;
-    startAplication();
-    updateStatus(hari_now);
-    DisplayBoard("SOC", 3);
-
+void menuAdmin(){
     bool is_lanjut = true;
-    int i, pilih;
-
+    int pilih;
+    
     while (is_lanjut) {
-        for (i = 0;i < 6;i++) {
-            cout << menu_app[i] << endl;
+        for (int i = 0;i < 3;i++) {
+            cout << menu_admin[i] << endl;
         }
         
         cout << "Pilih Menu: ";
@@ -352,12 +351,114 @@ int main() {
         case 1:
             break;
         case 2:
-         //show all bandara
-                //pilih bandara && date
-                //show the display
             break;
         case 3:
+                is_lanjut = false;
             break;
+       
+
+        }
+    }
+}
+
+void menuAirportBoard(){
+    bool loop=true;
+    while (loop){
+        int choiceAirport;
+        int choiceday;
+        cout<< "\n\n[ Pilih Bandara ]"<< endl;
+        for (int i = 0;i < JumlahBandara;i++) {
+            cout << i+1<<". "<<Bandara[i][0] << endl;
+        }
+        cout << "Pilih Menu: ";
+        cin >> choiceAirport;
+        
+        cout << "Pilih tanggal 1-7 : ";
+        cin >> choiceday;
+        
+        cout << "\n*membuka flight tracker "<< Bandara[choiceAirport-1][0]<< " untuk tanggal " << choiceday<<"\nwaktu sekarang:";
+        
+        DisplayBoard(Bandara[choiceAirport-1][1], choiceday);
+        char isExit;
+        cout << "kembali ke menu utama (Y/N) : ";
+        cin >> isExit;
+        if(isExit == 'Y'||isExit =='y'){
+            loop = false;
+        }
+    }
+
+}
+
+void menuCostumer(){
+    bool is_lanjut = true;
+    int pilih;
+    
+    while (is_lanjut) {
+        for (int i = 0;i < 4;i++) {
+            cout << menu_constumer[i] << endl;
+        }
+        
+        cout << "Pilih Menu: ";
+        cin >> pilih;
+        switch (pilih) {
+        case 1:
+                //ke menu data diri
+             //   buat sama edit sama aja
+            break;
+        case 2:
+                //menu pemesanan
+            break;
+        case 3:
+                //show all ticket display
+            break;
+            case 4:
+                    is_lanjut = false;
+                break;
+       
+
+        }
+    }
+}
+int main() {
+    
+    startAplication();
+    updateStatus(hari_now);
+    DisplayBoard("SOC", 3);
+
+    dataDiri myData = {"admin", 0, "admin"};
+    bool is_lanjut = true;
+    int i, pilih;
+
+    int jam = showActualTime() ;
+    cout << "[+++++ Program Flight Tracker & pemesanan tiket +++++]"<< endl;
+
+    cout<< "\njam: "<< convertJam(jam) << "\ntanggal: "<< hari_now<< " Desember 2023\n" <<endl;
+
+    while (is_lanjut) {
+        cout << "\n[+++++ Menu Utama +++++]"<< endl;
+
+        for (i = 0;i < 6;i++) {
+            cout << menu_app[i] << endl;
+        }
+        
+        cout << "Pilih Menu: ";
+        cin >> pilih;
+        switch (pilih) {
+        case 1:
+                //check admin if not return messages
+                if(myData.nama == "admin" && myData.nomorhp == "admin"){
+                    menuAdmin();
+                    //belum lesai
+                }else{
+                    cout<< "\nanda bukan admin!\n"<< endl;
+                }
+            break;
+        case 2:
+                menuAirportBoard();
+            break;
+        case 3:
+                menuCostumer();
+                break;
         case 4:
             is_lanjut = false;
             break;
