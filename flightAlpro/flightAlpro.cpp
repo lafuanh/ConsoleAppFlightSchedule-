@@ -13,7 +13,7 @@ using namespace std;
 #include <chrono>
 #include <iomanip>
 
-int hari_now = 3;
+int hari_now = 4; //ganti hari 1-7 untuk menganti hari program
 
 // DATA MASKAPAI
 std::string dataMaskapai[][2] = {
