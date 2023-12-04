@@ -32,20 +32,6 @@ std::string dataMaskapai[][2] = {
     {"Trigana Air", "TN"},
     {"Wings Air", "IW"}
 };
-int jumlahMaskapai = sizeof(dataMaskapai) / sizeof(dataMaskapai[0]);
-
-struct Pesawat {
-    int idPesawat;
-    string idMaskapai;
-    int tipePesawat; //1 large: 240, 2 medium: 140,3 small: 80 --
-    //25% are bussnies 50% are economy 10% are first class, 15% are quite zone
-};
-
-struct kursi
-{
-    string jenis;
-    int harga;
-};
 
 std::string Bandara[][2] = {
     {"Bandara Soekarno-Hatta", "CGK"},
@@ -59,7 +45,39 @@ std::string Bandara[][2] = {
     {"Bandara Kualanamu", "KNO"},
     {"Bandara Sam Ratulangi", "MDC"}
 };
+
 int JumlahBandara = sizeof(Bandara) / sizeof(Bandara[0]);
+int jumlahMaskapai = sizeof(dataMaskapai) / sizeof(dataMaskapai[0]);
+
+
+struct Pesawat {
+    int idPesawat;
+    string idMaskapai;
+    int tipePesawat; //1 large: 240, 2 medium: 140,3 small: 80 --
+    //25% are bussnies 50% are economy 10% are first class, 15% are quite zone
+};
+
+struct kursi
+{
+    string jenis;
+    double harga;
+};
+vector<kursi> datakursi;
+
+
+kursi createKursi(string tipe, double harga) {
+    kursi kursi_new;
+    kursi_new.jenis= tipe;
+    kursi_new.harga = harga;
+    return kursi_new;
+}
+
+void generateKursi(){
+    datakursi.push_back(createKursi("Bisnis", 200));
+    datakursi.push_back(createKursi("Ekonomi", 50));
+    datakursi.push_back(createKursi("First class", 400));
+    datakursi.push_back(createKursi("Quiet zone", 100));
+}
 
 
 struct dataDiri
@@ -73,6 +91,7 @@ struct dataDiri
         cout<< "usia :" << nomorhp<< endl;
     }
 };
+dataDiri myData = {"admin", 0, "admin"};
 
 
 //------------------------------//
@@ -179,7 +198,7 @@ void generatePenerbangan(){
 void startAplication() {
     generatePesawat();
     generatePenerbangan();
-    //generate penerbangan -- set every day had to be 3 plane each airport to random airport
+    generateKursi();
     
 }
 
@@ -242,6 +261,7 @@ void updateStatus(int currentDate){
         }
     }
 }
+//-----------------------------------------------//
 
 
 void DisplayBoard(string airportCode, int date){
@@ -265,7 +285,7 @@ void DisplayBoard(string airportCode, int date){
          }
      }
 }
-//---------------------
+//---------------------//
 struct Tiket
 {
     int idTicket;
@@ -277,6 +297,8 @@ struct Tiket
 
     string gate; //random pintu masuk
     string namaPenumpang;
+    string tipe;
+
     //data diri
 
     void display(){
@@ -288,11 +310,13 @@ struct Tiket
         cout<< "\npesawat: " << convertKodePesawat(idPesawat)<<endl;
 
         
-        cout<< "\nPenumpang: "<< namaPenumpang<<endl;
+        cout<< "Penumpang: "<< namaPenumpang<<endl;
+        cout<< "\nseat: "<< tipe<<endl;
+
         cout<< "gate: " << gate<<endl;
-        cout << "Depature: "<< convertJam(jamDepature)<<" " <<tanggalBerangkat<<endl;
+        cout << "Depature: "<< convertJam(jamDepature)<<" " <<tanggalBerangkat<<" desember 2023"<<endl;
         
-        cout << "\nticket: "<<idTicket<<endl;
+        cout << "\nNo ticket: "<<idTicket<<endl;
         cout<< "[-----------------------]"<<endl;
 
     }
@@ -300,7 +324,7 @@ struct Tiket
 
 std::vector<Tiket> dataTicket;
 
-Tiket createTiket(int nTiket, int nPesawat, int tanggalPesawat, int timeDepature, string idBandaraNow,string idTujuan,string idGate, string nama) {
+Tiket createTiket(int nTiket, int nPesawat, int tanggalPesawat, int timeDepature, string idBandaraNow,string idTujuan,string idGate, string nama, string tipeKursi) {
     Tiket Ticket_new;
     Ticket_new.idTicket = nTiket;
     Ticket_new.idPesawat = nPesawat;
@@ -310,9 +334,12 @@ Tiket createTiket(int nTiket, int nPesawat, int tanggalPesawat, int timeDepature
     Ticket_new.id_tujuanBerangkat = idTujuan;
     Ticket_new.gate = idGate;
     Ticket_new.namaPenumpang = nama;
+    Ticket_new.tipe = tipeKursi;
+
     return Ticket_new;
 }
 
+//----------------Array menu Aplikasi ----------------//
 string menu_app[6] = {
     "1. Admin",
     "2. Airport Board",
@@ -332,9 +359,20 @@ string menu_admin[3] = { //data diri harus admin untuk masuk menu ini
     "2. kembali",
 };
 
+string menu_dataDiri[3] = { //data diri harus admin untuk masuk menu ini
+    "1. perbarui Data Diri",
+    //"2. Edit data diri",
+    "2. kembali",
+};
+string menu_pembelian[3] = { //data diri harus admin untuk masuk menu ini
+    "1. Beli Sekarang",
+    //"2. Edit data diri",
+    "2. kembali",
+};
 
-//kursi
-//function all button
+
+//-------------------------------------------------//
+
 
 void menu_editPenerbangan(){
     vector<Penerbangan> dataPenerbanganBandara;
@@ -455,9 +493,6 @@ void menu_editPenerbangan(){
             break;
             
         }
-
-
-
     }
     
     std::cout << "----------- data penerbangan baru -------------\n";
@@ -469,10 +504,10 @@ void menu_editPenerbangan(){
     std::cout << "6. Asal: " << dataPenerbangan[pilihPenerbangan].id_BandaraSekarang << "\n";
     std::cout << "7. Gate: " << dataPenerbangan[pilihPenerbangan].id_gate << "\n";
     std::cout << "------------------------\n";
-
-
-
 }
+
+
+
 void menuAdmin(){
     bool is_lanjut = true;
     int pilih;
@@ -525,11 +560,190 @@ void menuAirportBoard(){
 
 }
 
+void menuDatadiri(){
+    bool is_lanjut = true;
+    int pilih;
+    
+    string nama;
+    string nomor;
+    int usiaB;
+
+    while (is_lanjut) {
+        cout << "\n[---- Data Diri ----]\n";
+        cout << "nama : " << myData.nama<<endl;
+        cout << "usia : "<< myData.usia<<endl;
+        cout << "nomor HP : "<< myData.nomorhp<<endl;
+
+
+
+        cout << "\n---------Menu---------\n";
+        for (int i = 0;i < 4;i++) {
+            cout << menu_dataDiri[i] << endl;
+        }
+        cout << "Pilih Menu: ";
+        cin >> pilih;
+        
+        switch (pilih) {
+            case 1:
+                cout << "masukan data Diri Anda: \n";
+                cout << "nama: ";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, nama);
+                cout << "usia: ";
+                cin >> usiaB;
+                cout << "nomor HP: ";
+                cin >> nomor;
+                
+                myData = {nama, usiaB, nomor};
+                break;
+            case 2:
+                    is_lanjut = false;
+                break;
+            default:
+                break;
+        }
+    
+    }
+    
+}
+
+void menuPesanTiket(){
+    bool is_lanjut = true;
+    int pilih;
+    
+
+    while (is_lanjut) {
+        cout << "\n--------- Menu Pembelian Tiket ---------\n";
+        for (int i = 0;i < datakursi.size();i++) {
+            cout << datakursi[i].jenis<<" : "<< datakursi[i].harga<<"$" << endl;
+        }
+        cout << "\n";
+        for (int i = 0;i < 4;i++) {
+            cout << menu_pembelian[i] << endl;
+        }
+        cout << "Pilih Menu: ";
+        cin >> pilih;
+        
+        switch (pilih) {
+            case 1:{
+                cout << "\n--------- Membeli tiket ---------\n";
+                int pilihTujuan, pilihAsal, pilihPesawat,pilihKursi;
+                vector<Penerbangan> listPenerbangantersedia;
+                
+                
+                cout<< "\n\n[ Pilih Bandara Asal]"<< endl;
+                for (int i = 0;i < JumlahBandara;i++) {
+                    cout << i+1 <<". "<<Bandara[i][0] << "("<<Bandara[i][1]<<")"<< endl;
+                }
+                cout << "pilih bandara asal (nomor): ";
+                cin >> pilihAsal;
+                pilihAsal -= 1;
+                
+                cout<< "\n\n[ Pilih Bandara tujuan]"<< endl;
+                for (int i = 0;i < JumlahBandara;i++) {
+                    cout << i+1<<". "<<Bandara[i][0] << "("<<Bandara[i][1]<<")"<< endl;
+                }
+                cout << "pilih bandara asal (nomor): ";
+                cin >> pilihTujuan;
+                pilihTujuan -= 1;
+                
+                cout<< "\n\n[ Pilih Pesawat ]"<< endl;
+                int index = 1;
+
+                for (auto& penerbangan : dataPenerbangan) {
+                    int selectedId = 0;
+
+                    if (penerbangan.id_BandaraSekarang == Bandara[pilihAsal][1]&& penerbangan.id_BandaraTujuan == Bandara[pilihTujuan][1] ) {
+                        std::cout <<  index << ". ";
+                        std::cout << "No Pesawat : " << convertKodePesawat(penerbangan.nomorPesawat )<< " | ";
+                        std::cout << "depature date: " << penerbangan.tanggalPenerbangan<<" desember 2023" << " | ";
+                        std::cout << "depature time: " << convertJam(penerbangan.jamKeberangkatan)<< " | ";
+                        std::cout << "Status: " << penerbangan.status << " | ";
+                        std::cout << "Tujuan: " << penerbangan.id_BandaraTujuan << " | ";
+                        std::cout << "Asal: " << penerbangan.id_BandaraSekarang << " | ";
+                        std::cout << "Gate: " << penerbangan.id_gate << "\n";
+                        listPenerbangantersedia.push_back(penerbangan);
+                        std::cout << "------------------------\n";
+                        index++;
+                    }
+                    selectedId ++;
+                }
+                
+                if(listPenerbangantersedia.size()==0){
+                    cout<< "penerbangan tidak ditemukan"<< endl;
+                    break;
+                }
+                cout << "pilih pesawat (nomor): ";
+                cin >> pilihPesawat;
+                pilihPesawat -= 1;
+                
+                std::cout << "----------- data penerbangan -------------\n";
+                 std::cout << "No Pesawat : " << listPenerbangantersedia[pilihPesawat].nomorPesawat<< "\n";
+                 std::cout << "depature date: " <<  listPenerbangantersedia[pilihPesawat].tanggalPenerbangan<<" desember 2023" << "\n";
+                 std::cout << "depature time: " << convertJam( listPenerbangantersedia[pilihPesawat].jamKeberangkatan)<< "\n";
+                 std::cout << "Status: " << listPenerbangantersedia[pilihPesawat].status << "\n";
+                 std::cout << "Tujuan: " <<  listPenerbangantersedia[pilihPesawat].id_BandaraTujuan << "\n";
+                 std::cout << "Asal: " <<  listPenerbangantersedia[pilihPesawat].id_BandaraSekarang << "\n";
+                 std::cout << "Gate: " <<  listPenerbangantersedia[pilihPesawat].id_gate << "\n";
+                 std::cout << "------------------------\n";
+                
+                cout<< "[ Pilih kursi ]"<< endl;
+                for (int i = 0;i < datakursi.size();i++) {
+                    cout <<i+1<<". "<< datakursi[i].jenis<<" : "<< datakursi[i].harga<<"$" << endl;
+                }
+                cout << "pilih kursi (tipe): ";
+                cin >> pilihKursi;
+                pilihKursi -= 1;
+                
+                cout<< "\n\n[ checkout ]"<< endl;
+                std::cout << "Tujuan: " <<  listPenerbangantersedia[pilihPesawat].id_BandaraTujuan << "\n";
+                std::cout << "Asal: " <<  listPenerbangantersedia[pilihPesawat].id_BandaraSekarang << "\n";
+                std::cout << "depature : "<<convertJam( listPenerbangantersedia[pilihPesawat].jamKeberangkatan)<< " "<<  listPenerbangantersedia[pilihPesawat].tanggalPenerbangan<<" desember 2023" << "\n";
+                std::cout << "No Pesawat : " << listPenerbangantersedia[pilihPesawat].nomorPesawat<< "\n";
+                cout << "kursi: "<<  datakursi[pilihKursi].jenis;
+                std::cout << "\n\n--------------------\n";
+
+                cout << "Total Harga: "<<  datakursi[pilihKursi].harga<< "$"<<endl;
+
+
+                
+                char isDeal;
+                cout << "beli Tiket ini? (Y/N) : ";
+                cin >> isDeal;
+                if(isDeal == 'Y'||isDeal =='y'){
+                    dataTicket.push_back(createTiket(pilihAsal *2023 + pilihKursi + pilihPesawat *12 *12000 + listPenerbangantersedia[pilihPesawat].jamKeberangkatan , listPenerbangantersedia[pilihPesawat].nomorPesawat, listPenerbangantersedia[pilihPesawat].tanggalPenerbangan, listPenerbangantersedia[pilihPesawat].jamKeberangkatan, listPenerbangantersedia[pilihPesawat].id_BandaraSekarang, listPenerbangantersedia[pilihPesawat].id_BandaraTujuan, listPenerbangantersedia[pilihPesawat].id_gate, myData.nama,datakursi[pilihKursi].jenis));
+                    cout<< "\n++TIKET anda beli telah Masuk ke Inventory anda"<< endl;
+                }
+
+
+                
+                //beri pilihan nomor kursi
+                
+            }
+                
+                break;
+            case 2:{
+                is_lanjut = false;
+
+            }
+                
+                break;
+
+
+            default:
+                
+                break;
+        }
+
+    }
+}
+
 void menuCostumer(){
     bool is_lanjut = true;
     int pilih;
     
     while (is_lanjut) {
+        cout<<"\n[--- Menu Costumer ---]\n";
         for (int i = 0;i < 4;i++) {
             cout << menu_constumer[i] << endl;
         }
@@ -538,14 +752,26 @@ void menuCostumer(){
         cin >> pilih;
         switch (pilih) {
         case 1:
+                menuDatadiri();
                 //ke menu data diri
              //   buat sama edit sama aja
             break;
         case 2:
+                menuPesanTiket();
                 //menu pemesanan
             break;
         case 3:
-                //show all ticket display
+                cout<<"[ --- daftar ticket ---]\n";
+                if(dataTicket.size() != 0){
+                    for(int i=0;i<dataTicket.size();i++){
+                        dataTicket[i].display();
+
+                    }
+
+                }else{
+                    cout<<"kamu tidak mempunyai tiket\n";
+                }
+                
             break;
             case 4:
                     is_lanjut = false;
@@ -559,9 +785,8 @@ int main() {
     
     startAplication();
     updateStatus(hari_now);
-    DisplayBoard("SOC", 3);
+//    DisplayBoard("SOC", 3);
 
-    dataDiri myData = {"admin", 0, "admin"};
     bool is_lanjut = true;
     int i, pilih;
 
