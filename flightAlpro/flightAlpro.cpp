@@ -361,7 +361,7 @@ string menu_admin[3] = { //data diri harus admin untuk masuk menu ini
     "2. kembali",
 };
 
-string menu_dataDiri[3] = { //data diri harus admin untuk masuk menu ini
+string menu_dataDiri[2] = { //data diri harus admin untuk masuk menu ini
     "1. perbarui Data Diri",
     //"2. Edit data diri",
     "2. kembali",
@@ -580,7 +580,7 @@ string NIK;
 
 
         cout << "\n---------Menu---------\n";
-        for (int i = 0;i < 4;i++) {
+        for (int i = 0;i < 2;i++) {
             cout << menu_dataDiri[i] << endl;
         }
         cout << "Pilih Menu: ";
