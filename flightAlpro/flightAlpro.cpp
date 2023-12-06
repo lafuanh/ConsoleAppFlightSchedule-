@@ -82,16 +82,18 @@ void generateKursi(){
 
 struct dataDiri
 {
+    string NIK;
     string nama;
     int usia;
     string nomorhp;
     void display() {
+        cout<< "NIK :" << NIK<< endl;
         cout<< "Nama :" << nama<< endl;
         cout<< "usia :" << usia<< endl;
-        cout<< "usia :" << nomorhp<< endl;
+        cout<< "Nomor HP :" << nomorhp<< endl;
     }
 };
-dataDiri myData = {"admin", 0, "admin"};
+dataDiri myData = {"admin", "admin", 0, "admin"};
 
 
 //------------------------------//
@@ -567,9 +569,10 @@ void menuDatadiri(){
     string nama;
     string nomor;
     int usiaB;
-
+string NIK;
     while (is_lanjut) {
         cout << "\n[---- Data Diri ----]\n";
+        cout << "NIK : " << myData.NIK<<endl;
         cout << "nama : " << myData.nama<<endl;
         cout << "usia : "<< myData.usia<<endl;
         cout << "nomor HP : "<< myData.nomorhp<<endl;
@@ -587,14 +590,16 @@ void menuDatadiri(){
             case 1:
                 cout << "masukan data Diri Anda: \n";
                 cout << "nama: ";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, nama);
+                cin.ignore();
+                getline(cin, nama);
                 cout << "usia: ";
                 cin >> usiaB;
                 cout << "nomor HP: ";
                 cin >> nomor;
+   cout << "NIK: ";
+                cin >> NIK;
                 
-                myData = {nama, usiaB, nomor};
+                myData = {NIK,nama, usiaB, nomor};
                 break;
             case 2:
                     is_lanjut = false;
