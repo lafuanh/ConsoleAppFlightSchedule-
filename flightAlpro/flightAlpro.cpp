@@ -5,6 +5,8 @@
 //  Created by naufal adyatma on 06/11/23.
 //
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+
+
 #include <iostream>
 using namespace std;
 #include <string>
@@ -404,7 +406,7 @@ void menu_editPenerbangan() {
     for (auto& penerbangan : dataPenerbangan) {
         int selectedId = 0;
 
-        if (penerbangan.id_BandaraSekarang == Bandara[selectedId][1]) {
+        if (penerbangan.id_BandaraSekarang == Bandara[selectedId][1] ) {
             std::cout << index << ". ";
             std::cout << "No Pesawat : " << convertKodePesawat(penerbangan.nomorPesawat) << " ";
             std::cout << "depature date: " << penerbangan.tanggalPenerbangan << " desember 2023" << " ";
@@ -664,7 +666,7 @@ void menuPesanTiket() {
             for (auto& penerbangan : dataPenerbangan) {
                 int selectedId = 0;
 
-                if (penerbangan.id_BandaraSekarang == Bandara[pilihAsal][1] && penerbangan.id_BandaraTujuan == Bandara[pilihTujuan][1]) {
+                if (penerbangan.id_BandaraSekarang == Bandara[pilihAsal][1] && penerbangan.id_BandaraTujuan == Bandara[pilihTujuan][1] && penerbangan.tanggalPenerbangan >= hari_now) {
                     std::cout << index << ". ";
                     std::cout << "No Pesawat : " << convertKodePesawat(penerbangan.nomorPesawat) << " | ";
                     std::cout << "depature date: " << penerbangan.tanggalPenerbangan << " desember 2023" << " | ";
@@ -768,16 +770,22 @@ void menuCostumer() {
          //   buat sama edit sama aja
             break;
         case 2:
-            menuPesanTiket();
+                if(myData.nama == "admin" ){
+                    cout<<"ANDA ADALAH ADMIN!! \n";
+                }else{
+                    menuPesanTiket();
+
+                }
             //menu pemesanan
             break;
         case 3:
-            cout << "[ --- daftar ticket ---]\n";
+            cout << "\n\n\n\n\n\n\n\n[ --- daftar ticket ---]\n";
             if (dataTicket.size() != 0) {
                 for (int i = 0;i < dataTicket.size();i++) {
                     dataTicket[i].display();
 
                 }
+                cout<<"\n\n";
 
             }
             else {
@@ -824,7 +832,7 @@ int main() {
                 //belum lesai
             }
             else {
-                cout << "\nanda bukan admin!\n" << endl;
+                cout << "\n anda bukan admin!\n" << endl;
             }
             break;
         case 2:
